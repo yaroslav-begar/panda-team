@@ -1,13 +1,10 @@
 <?php
 
 return [
-    'host' => 'http://panda-team',
-    'db' => [
-        'host' => 'localhost:3306',
-        'dbms' => 'mysql',
-        'db' => 'panda-team',
+    'db_connection' => [
+        'host' => 'localhost',
+        'dbname' => 'panda-team',
         'user' => 'root',
-        'password' => '',
-        'charset' => 'utf8'
+        'password' => ''
     ]
 ];

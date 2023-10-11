@@ -1,2 +1,2 @@
 # panda-team
-asd
+Developer test task from panda-team

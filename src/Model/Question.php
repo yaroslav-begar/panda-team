@@ -17,6 +17,11 @@ namespace Model;
 class Question extends AbstractModel
 {
     /**
+     * @const array
+     */
+    public const STATUSES = ['draft', 'published'];
+
+    /**
      * @var string
      */
     protected static string $table = 'question';

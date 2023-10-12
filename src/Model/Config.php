@@ -1,4 +1,9 @@
 <?php
+/**
+ * @noinspection ALL
+ */
+
+declare(strict_types=1);
 
 namespace Model;
 
@@ -70,6 +75,6 @@ class Config
             throw new Exception('Configuration file is not available.');
         }
 
-        return require_once $file;
+        return require $file;
     }
 }

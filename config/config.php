@@ -3,7 +3,7 @@
 return [
     'db_connection' => [
         'host' => 'localhost',
-        'dbname' => 'panda-team',
+        'dbname' => 'panda_team',
         'user' => 'root',
         'password' => ''
     ]

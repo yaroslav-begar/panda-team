@@ -1,9 +1,15 @@
-﻿<?php
-/** @noinspection ALL */
+<?php
+/**
+ * @noinspection ALL
+ */
+
+declare(strict_types=1);
 
 namespace Model;
 
+use Exception;
 use PDO;
+use PDOException;
 
 class Database
 {
@@ -12,6 +18,15 @@ class Database
      */
     private PDO $dbh;
 
+    /**
+     * @var string
+     */
+    private string $className = 'stdClass';
+
+    /**
+     * @throws Exception
+     * @throws PDOException
+     */
     public function __construct()
     {
         $config = new Config();
@@ -21,5 +36,27 @@ class Database
             $config->getDbUser(),
             $config->getDbPassword()
         );
+    }
+
+    /**
+     * @param string $className
+     * @return void
+     */
+    public function setClassName(string $className): void
+    {
+        $this->className = $className;
+    }
+
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return array|false
+     */
+    public function query(string $sql, array $params = [])
+    {
+        $sth = $this->dbh->prepare($sql);
+        $sth->execute($params);
+
+        return $sth->fetchAll(PDO::FETCH_CLASS, $this->className);
     }
 }

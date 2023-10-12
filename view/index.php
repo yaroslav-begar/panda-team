@@ -4,7 +4,7 @@
         <h3>Proceed to the cabinet</h3>
         <div>
             <div>
-                <a href='/survey/cabinet'><button>Cabinet</button></a>
+                <a href='/survey/all'><button>Cabinet</button></a>
             </div>
         </div>
     <?php else: ?>

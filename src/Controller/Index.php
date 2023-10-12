@@ -9,7 +9,7 @@ namespace Controller;
 
 use Model\View;
 
-class Index
+class Index extends AbstractController
 {
     /**
      * @return void

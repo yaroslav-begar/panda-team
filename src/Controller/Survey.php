@@ -7,10 +7,12 @@ declare(strict_types=1);
 
 namespace Controller;
 
+use Exception;
+use Model\Answer;
 use Model\View;
 use Model\Question;
 
-class Survey
+class Survey extends AbstractController
 {
     /**
      * @return void
@@ -20,7 +22,41 @@ class Survey
         $questions = Question::findAll();
         $view = new View();
         $view->title = 'Cabinet';
-        $view->items = $questions;
+        $view->questions = $questions;
         $view->display('survey/all');
+    }
+
+    /**
+     * @param mixed $id
+     * @return void
+     */
+    public function actionView($id): void
+    {
+        $question = Question::findOneById($id);
+        if (!$question) {
+            throw new Exception(\sprintf('Survey with ID "%d" cannot be viewed.', $id));
+        }
+
+        $answers = Answer::findAllByColomn('question_id', $id);
+
+        $view = new View();
+        $view->title = 'View survey #' . $id;
+        $view->question = $question;
+        $view->answers = $answers;
+        $view->display('survey/view');
+    }
+
+    /**
+     * @param mixed $id
+     * @return void
+     */
+    public function actionDelete($id): void
+    {
+        $question = Question::findOneById($id);
+        if (!$question) {
+            throw new Exception(\sprintf('Survey with ID "%d" cannot be deleted.', $id));
+        }
+        $question->delete();
+        $this->redirect($_SERVER['HTTP_REFERER']);
     }
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection ALL */ ?>
 
+<?php /** @var \Model\Question[] $questions */ ?>
+
 <div class="container">
     <h3">Your survey list</h3>
     <div>
@@ -17,20 +19,19 @@
                 <th>Created At</th>
                 <th>Action</th>
             </tr>
-            <?php /** @var \Model\Question $question */ ?>
-            <?php foreach ($items as $question): ?>
-                <tr>
-                    <td><?= $question->id ?></td>
-                    <td><?= $question->user_id ?></td>
-                    <td><?= $question->text ?></td>
-                    <td><?= \Model\Question::STATUSES[$question->status] ?></td>
-                    <td><?= $question->created_at ?></td>
-                    <td>
-                        <a href="/survey/view?id=<?= $question->id ?>"><button type="button">View</button></a>
-                        <a href="/survey/update?id=<?= $question->id ?>"><button type="button">Edit</button></a>
-                        <a href="/survey/remove?id=<?= $question->id ?>"><button type="button">Remove</button></a>
-                    </td>
-                </tr>
+            <?php foreach ($questions as $question): ?>
+            <tr>
+                <td><?= $question->id ?></td>
+                <td><?= $question->user_id ?></td>
+                <td><?= $question->text ?></td>
+                <td><?= \Model\Question::STATUSES[$question->status] ?></td>
+                <td><?= $question->created_at ?></td>
+                <td>
+                    <a href="/survey/view/id/<?= $question->id ?>"><button type="button">View</button></a>
+                    <a href="/survey/update/id/<?= $question->id ?>"><button type="button">Edit</button></a>
+                    <a href="/survey/delete/id/<?= $question->id ?>"><button type="button">Remove</button></a>
+                </td>
+            </tr>
             <?php endforeach; ?>
         </table>
     </div>

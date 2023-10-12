@@ -18,9 +18,9 @@ $methodName = 'action' . $action;
 try {
     (new $className())->$methodName();
 } catch(\Throwable $e) {
-    // TODO: Log error
+    // TODO: Log error code, message, etc.
     $view = new View();
     $view->title = 'Error';
-    $view->error = $e->getMessage();
+    $view->error = 'Unexpected error';
     $view->display('error');
 }

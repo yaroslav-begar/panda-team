@@ -5,6 +5,6 @@ return [
         'host' => 'localhost',
         'dbname' => 'panda-team',
         'user' => 'root',
-        'password' => '',
+        'password' => ''
     ]
 ];

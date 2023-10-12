@@ -2,32 +2,74 @@
 
 namespace Model;
 
+use Exception;
+
 class Config
 {
     /**
      * @var array
      */
-    private $dbConnection;
+    private array $config;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
-        $config = $this->getConfig();
-        $this->dbConnection = $config['db_connection'];
+        $this->config = $this->getConfig();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbHost(): string
+    {
+        return $this->getDbConnection()['host'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbName(): string
+    {
+        return $this->getDbConnection()['dbname'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbUser(): string
+    {
+        return $this->getDbConnection()['user'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbPassword(): string
+    {
+        return $this->getDbConnection()['password'];
     }
 
     /**
      * @return array
      */
-    public function getDbConnection(): array
+    private function getDbConnection(): array
     {
-        return $this->dbConnection;
+        return $this->config['db_connection'];
     }
 
     /**
      * @return array
+     * @throws Exception
      */
     private function getConfig(): array
     {
-        return require_once __DIR__ . '/../../config/config.php';
+        $file = __DIR__ . '/../../config/config.php';
+        if (!\file_exists($file) || !\is_readable($file)) {
+            throw new Exception('Configuration file is not available.');
+        }
+
+        return require_once $file;
     }
 }

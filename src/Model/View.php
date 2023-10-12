@@ -8,7 +8,7 @@ class View
     /**
      * @var array
      */
-	private $data = [];
+	private array $data = [];
 
     /**
      * @param string $key

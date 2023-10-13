@@ -36,7 +36,6 @@ class Survey extends AbstractController
         if (!$question) {
             throw new Exception(\sprintf('Survey with ID "%d" cannot be viewed.', $id));
         }
-
         $answers = Answer::findAllByColumn('question_id', $id);
 
         $view = new View();
@@ -46,9 +45,43 @@ class Survey extends AbstractController
         $view->display('survey/view');
     }
 
-    public function actionUpdate()
+    /**
+     * @return void
+     */
+    public function actionCreate(): void
     {
-        // TODO: Implement
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // TODO: Save data + redirect to /survey/all
+        } else {
+            $view = new View();
+            $view->title = 'Create survey';
+            $view->display('survey/update');
+        }
+    }
+
+    /**
+     * @param mixed $id
+     * @return void
+     */
+    public function actionUpdate($id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            // TODO: Load data + replace data + redirect to /survey/all
+        } else {
+            $question = Question::findOneById($id);
+            if (!$question) {
+                throw new Exception(\sprintf('Survey with ID "%d" cannot be loaded to update.', $id));
+            }
+            $answers = Answer::findAllByColumn('question_id', $id);
+
+            $view = new View();
+            $view->title = 'Update survey #' . $id;
+            $view->question = $question;
+            $view->answers = $answers;
+            $view->display('survey/update');
+        }
     }
 
     /**

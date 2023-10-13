@@ -20,21 +20,23 @@
             </table>
         </div>
     </div>
-    <h3>Your answers</h3>
     <div class="answers">
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Text</th>
-                <th>Votes Number</th>
-            </tr>
-            <?php foreach ($answers as $answer): ?>
-            <tr>
-                <td><?= $answer->id ?></td>
-                <td><?= $answer->text ?></td>
-                <td><?= $answer->votes_number ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+        <h3>Answers</h3>
+        <div>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Text</th>
+                    <th>Votes Number</th>
+                </tr>
+                <?php foreach ($answers as $answer): ?>
+                    <tr>
+                        <td><?= $answer->id ?></td>
+                        <td><?= $answer->text ?></td>
+                        <td><?= $answer->votes_number ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
     </div>
 </div>

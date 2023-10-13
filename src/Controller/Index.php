@@ -17,7 +17,7 @@ class Index extends AbstractController
     public function actionIndex(): void
     {
         $view = new View();
-        $view->title = 'Index';
+        $view->title = 'Main page';
         $view->display('index');
     }
 }

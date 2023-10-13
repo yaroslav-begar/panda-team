@@ -27,7 +27,6 @@
                 <th>ID</th>
                 <th>Text</th>
                 <th>Votes Number</th>
-
             </tr>
             <?php foreach ($answers as $answer): ?>
             <tr>

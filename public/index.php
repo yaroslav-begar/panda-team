@@ -25,10 +25,15 @@ try {
     } else {
         (new $className())->$methodName();
     }
+} catch(\Exception $e) {
+    $view = new View();
+    $view->title = 'Error page';
+    $view->error = $e->getMessage();
+    $view->display('error');
 } catch(\Throwable $e) {
     // TODO: Log error code, message, etc.
     $view = new View();
-    $view->title = 'Error';
-    $view->error = 'Unexpected error';
+    $view->title = 'Error page';
+    $view->error = 'Unexpected error.';
     $view->display('error');
 }

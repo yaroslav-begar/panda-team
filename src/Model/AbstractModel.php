@@ -53,30 +53,15 @@ class AbstractModel
     }
 
     /**
-     * @return array|false
+     * @return array
      */
-    public static function findAll()
+    public static function findAll(): array
     {
         $sql = 'SELECT * FROM ' . static::$table;
         $db = new Database();
-        $db->setClassName(get_called_class());
+        $db->setClassName(\get_called_class());
 
-        return $db->query($sql);
-    }
-
-    /**
-     * @param mixed $id
-     * @return self|false
-     */
-    public static function findOneById($id)
-    {
-        $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
-        $db = new Database();
-        $db->setClassName(get_called_class());
-
-        $res = $db->query($sql, [':id' => $id]);
-
-        return $res[0] ?? false;
+        return $db->query($sql); // Массив объектов или пустой массив
     }
 
     /**
@@ -88,19 +73,65 @@ class AbstractModel
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $colomn . '=:value';
         $db = new Database();
-        $db->setClassName(get_called_class());
+        $db->setClassName(\get_called_class());
 
-        return $db->query($sql, [':value' => $value]);
+        return $db->query($sql, [':value' => $value]); // Массив объектов или пустой массив
+    }
+
+
+
+    public static function findOneByColomn(string $colomn, $value)
+    {
+        // TODO: Implement
+    }
+
+    public static function findOneByColomns(array $colomns)
+    {
+        // TODO: Implement
+    }
+
+
+
+    /**
+     * @param mixed $id
+     * @return self|null
+     */
+    public static function findOneById($id): ?self
+    {
+        $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
+        $db = new Database();
+        $db->setClassName(\get_called_class());
+
+        $res = $db->query($sql, [':id' => $id]); // Массив объектов или пустой массив
+
+        return $res[0] ?? null;
     }
 
     /**
-     * @return array|false
+     * @return void
      */
-    public function delete()
+    public function insert(): void
+    {
+        $cols = \array_keys($this->data);
+        $data = [];
+        foreach($cols as $col) {
+            $data[':' . $col] = $this->data[$col];
+        }
+        $sql = 'INSERT INTO ' . static::$table . ' (' . \implode(', ', $cols) . ') 
+			VALUES (' . \implode(', ', \array_keys($data)) . ')';
+        $db = new Database();
+        $db->execute($sql, $data);
+        $this->id = $db->lastInsertId();
+    }
+
+    /**
+     * @return array
+     */
+    public function delete(): array
     {
         $sql = 'DELETE FROM ' . static::$table . ' WHERE id=:id';
         $db = new Database();
 
-        return $db->query($sql, [':id' => $this->id]);
+        return $db->query($sql, [':id' => $this->id]); // Пустой массив
     }
 }

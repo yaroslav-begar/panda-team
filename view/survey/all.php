@@ -3,7 +3,7 @@
 <?php /** @var \Model\Question[] $questions */ ?>
 
 <div class="container">
-    <h3">Your survey list</h3>
+    <h3>Your survey list</h3>
     <div>
         <div>
             <a href="/survey/update"><button type="button">Create survey</button></a>

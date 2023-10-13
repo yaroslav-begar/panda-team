@@ -37,13 +37,18 @@ class Survey extends AbstractController
             throw new Exception(\sprintf('Survey with ID "%d" cannot be viewed.', $id));
         }
 
-        $answers = Answer::findAllByColomn('question_id', $id);
+        $answers = Answer::findAllByColumn('question_id', $id);
 
         $view = new View();
         $view->title = 'View survey #' . $id;
         $view->question = $question;
         $view->answers = $answers;
         $view->display('survey/view');
+    }
+
+    public function actionUpdate()
+    {
+        // TODO: Implement
     }
 
     /**

@@ -59,4 +59,24 @@ class Database
 
         return $sth->fetchAll(PDO::FETCH_CLASS, $this->className);
     }
+
+    /**
+     * @param string $sql
+     * @param array $params
+     * @return bool
+     */
+    public function execute(string $sql, array $params = []): bool
+    {
+        $sth = $this->dbh->prepare($sql);
+
+        return $sth->execute($params);
+    }
+
+    /**
+     * @return string|false
+     */
+    public function lastInsertId()
+    {
+        return $this->dbh->lastInsertId();
+    }
 }

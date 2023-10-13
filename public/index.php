@@ -26,6 +26,7 @@ try {
         (new $className())->$methodName();
     }
 } catch(\Exception $e) {
+    // TODO: Add human readable messages
     $view = new View();
     $view->title = 'Error page';
     $view->error = $e->getMessage();

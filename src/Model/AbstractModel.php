@@ -61,36 +61,67 @@ class AbstractModel
         $db = new Database();
         $db->setClassName(\get_called_class());
 
-        return $db->query($sql); // Массив объектов или пустой массив
+        return $db->query($sql);
     }
 
     /**
-     * @param string $colomn
+     * @param string $column
      * @param mixed $value
      * @return array
      */
-    public static function findAllByColomn(string $colomn, $value)
+    public static function findAllByColumn(string $column, $value)
     {
-        $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $colomn . '=:value';
+        $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $column . '=:value';
         $db = new Database();
         $db->setClassName(\get_called_class());
 
-        return $db->query($sql, [':value' => $value]); // Массив объектов или пустой массив
+        return $db->query($sql, [':value' => $value]);
     }
 
-
-
-    public static function findOneByColomn(string $colomn, $value)
+    /**
+     * @param string $column
+     * @param mixed $value
+     * @return self|null
+     */
+    public static function findOneByColumn(string $column, $value): ?self
     {
-        // TODO: Implement
+        $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $column . '=:value LIMIT 1';
+        $db = new Database();
+        $db->setClassName(\get_called_class());
+
+        $res = $db->query($sql, [':value' => $value]);
+
+        return $res[0] ?? null;
     }
 
-    public static function findOneByColomns(array $colomns)
+    /**
+     * @param array $columns
+     * @return self|null
+     */
+    public static function findOneByColumns(array $columns): ?self
     {
-        // TODO: Implement
+        if (empty($columns)) {
+            return null;
+        }
+        $firstColumn = \array_key_first($columns);
+        $firstValue = \array_shift($columns);
+
+        $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $firstColumn . '=:' . $firstColumn;
+        $values = [];
+        foreach ($columns as $column => $value) {
+            $sql .= ' AND '. $column . '=:' . $column;
+            $values[':' . $column] = $value;
+        }
+        $sql .= ' LIMIT 1';
+        $values = [':' . $firstColumn => $firstValue] + $values;
+
+        $db = new Database();
+        $db->setClassName(\get_called_class());
+
+        $res = $db->query($sql, $values);
+
+        return $res[0] ?? null;
     }
-
-
 
     /**
      * @param mixed $id
@@ -102,7 +133,7 @@ class AbstractModel
         $db = new Database();
         $db->setClassName(\get_called_class());
 
-        $res = $db->query($sql, [':id' => $id]); // Массив объектов или пустой массив
+        $res = $db->query($sql, [':id' => $id]);
 
         return $res[0] ?? null;
     }
@@ -132,6 +163,6 @@ class AbstractModel
         $sql = 'DELETE FROM ' . static::$table . ' WHERE id=:id';
         $db = new Database();
 
-        return $db->query($sql, [':id' => $this->id]); // Пустой массив
+        return $db->query($sql, [':id' => $this->id]);
     }
 }

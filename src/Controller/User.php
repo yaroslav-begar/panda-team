@@ -19,14 +19,17 @@ class User extends AbstractController
      */
     public function actionLogin(): void
     {
-        if (!empty($email = $_POST['email']) && !empty($password = $_POST['password'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'
+            && !empty($email = $_POST['email'])
+            && !empty($password = $_POST['password'])
+        ) {
             $user = UserModel::findOneByColumns(['email' => $email, 'password' => \md5($password)]);
             if (!$user) {
                 throw new Exception(\sprintf('User with these credentials not found: "%s", "%s".', $email, $password));
             }
             $_SESSION['user'] = $user->email;
 
-            $this->redirect('survey/all');
+            $this->redirect('/survey/all');
         } else {
             $view = new View();
             $view->title = 'Login page';
@@ -49,8 +52,11 @@ class User extends AbstractController
      */
     public function actionRegister(): void
     {
-        if (!empty($email = $_POST['email']) && !empty($password = $_POST['password'])) {
-            $user = UserModel::findOneByColomn('email', $email);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'
+            && !empty($email = $_POST['email'])
+            && !empty($password = $_POST['password'])
+        ) {
+            $user = UserModel::findOneByColumn('email', $email);
             if ($user) {
                 throw new Exception(\sprintf('User with this email already exists: "%s".', $email));
             }
@@ -60,7 +66,7 @@ class User extends AbstractController
             $user->password = \md5($password);
             $user->insert();
 
-            $this->redirect('user/login');
+            $this->redirect('/user/login');
         } else {
             $view = new View();
             $view->title = 'Register page';

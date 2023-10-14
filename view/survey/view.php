@@ -30,13 +30,16 @@
                     <th>Votes Number</th>
                 </tr>
                 <?php foreach ($answers as $answer): ?>
-                    <tr>
-                        <td><?= $answer->id ?></td>
-                        <td><?= $answer->text ?></td>
-                        <td><?= $answer->votes_number ?></td>
-                    </tr>
+                <tr>
+                    <td><?= $answer->id ?></td>
+                    <td><?= $answer->text ?></td>
+                    <td><?= $answer->votes_number ?></td>
+                </tr>
                 <?php endforeach; ?>
             </table>
         </div>
+    </div>
+    <div>
+        <a href="/survey/all"><button type="button">Back</button></a>
     </div>
 </div>

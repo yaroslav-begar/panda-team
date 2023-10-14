@@ -14,11 +14,13 @@ use Model\View;
 class User extends AbstractController
 {
     /**
-     * @todo Sanitize input
+     * @todo Validate input
      * @return void
      */
     public function actionLogin(): void
     {
+        $this->redirectIfSessionUserExist();
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
             && !empty($email = $_POST['email'])
             && !empty($password = $_POST['password'])
@@ -27,7 +29,7 @@ class User extends AbstractController
             if (!$user) {
                 throw new Exception(\sprintf('User with these credentials not found: "%s", "%s".', $email, $password));
             }
-            // $_SESSION['user'] = $user->email;
+            $_SESSION['user'] = $user->email;
 
             $this->redirect('/survey/all');
         } else {
@@ -42,16 +44,18 @@ class User extends AbstractController
      */
     public function actionLogout(): void
     {
-        // unset($_SESSION['user']);
-        $this->redirect('/');
+        unset($_SESSION['user']);
+        $this->redirect('/index/index');
     }
 
     /**
-     * @todo Sanitize input
+     * @todo Validate input
      * @return void
      */
     public function actionRegister(): void
     {
+        $this->redirectIfSessionUserExist();
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
             && !empty($email = $_POST['email'])
             && !empty($password = $_POST['password'])

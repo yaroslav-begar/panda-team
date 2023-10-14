@@ -20,6 +20,7 @@
             </table>
         </div>
     </div>
+    <?php if (!empty($answers)): ?>
     <div class="answers">
         <h3>Answers</h3>
         <div>
@@ -39,6 +40,7 @@
             </table>
         </div>
     </div>
+    <?php endif; ?>
     <div>
         <a href="/survey/all"><button type="button">Back</button></a>
     </div>

@@ -35,4 +35,10 @@
             <?php endforeach; ?>
         </table>
     </div>
+    <div>
+        <div>
+            <a href="/user/logout"><button type="button">Logout</button></a>
+        </div>
+    </div>
+
 </div>

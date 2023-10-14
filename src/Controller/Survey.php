@@ -20,7 +20,11 @@ class Survey extends AbstractController
      */
     public function actionAll(): void
     {
-        $questions = Question::findAll();
+        $this->redirectIfNoSessionUserExist();
+
+        $user = User::findOneByColumn('email', $_SESSION['user']);
+
+        $questions = Question::findAllByColumn('user_id', $user->id);
         $view = new View();
         $view->title = 'Cabinet';
         $view->questions = $questions;
@@ -33,6 +37,8 @@ class Survey extends AbstractController
      */
     public function actionView($id): void
     {
+        $this->redirectIfNoSessionUserExist();
+
         $question = Question::findOneById($id);
         if (!$question) {
             throw new Exception(\sprintf('Survey with ID "%d" cannot be viewed.', $id));
@@ -52,12 +58,14 @@ class Survey extends AbstractController
      */
     public function actionCreate(): void
     {
+        $this->redirectIfNoSessionUserExist();
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
             && isset($_POST['status'])
             && \array_key_exists($status = (int)$_POST['status'], Question::STATUSES)
             && !empty($text = $_POST['text'])
         ) {
-            $user = User::findOneByColumn('email', 'asd@mail.ru'); // $_SESSION['user']
+            $user = User::findOneByColumn('email', $_SESSION['user']);
 
             $question = new Question();
             $question->user_id = $user->id;
@@ -92,19 +100,17 @@ class Survey extends AbstractController
      */
     public function actionUpdate($id): void
     {
+        $this->redirectIfNoSessionUserExist();
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
             && isset($_POST['status'])
             && \array_key_exists($status = (int)$_POST['status'], Question::STATUSES)
             && !empty($text = $_POST['text'])
         ) {
-            $user = User::findOneByColumn('email', 'asd@mail.ru'); // $_SESSION['user']
-
             $question = Question::findOneById($id);
             if (!$question) {
                 throw new Exception(\sprintf('Survey with ID "%d" cannot be updated.', $id));
             }
-            $question->id = $id;
-            $question->user_id = $user->id;
             $question->status = $status;
             $question->text = $text;
             $question->update();
@@ -146,6 +152,8 @@ class Survey extends AbstractController
      */
     public function actionDelete($id): void
     {
+        $this->redirectIfNoSessionUserExist();
+
         $question = Question::findOneById($id);
         if (!$question) {
             throw new Exception(\sprintf('Survey with ID "%d" cannot be deleted.', $id));

@@ -27,7 +27,7 @@ class User extends AbstractController
             if (!$user) {
                 throw new Exception(\sprintf('User with these credentials not found: "%s", "%s".', $email, $password));
             }
-            $_SESSION['user'] = $user->email;
+            // $_SESSION['user'] = $user->email;
 
             $this->redirect('/survey/all');
         } else {
@@ -42,7 +42,7 @@ class User extends AbstractController
      */
     public function actionLogout(): void
     {
-        unset($_SESSION['user']);
+        // unset($_SESSION['user']);
         $this->redirect('/');
     }
 

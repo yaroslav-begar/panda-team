@@ -9,6 +9,7 @@ namespace Controller;
 
 use Exception;
 use Model\Answer;
+use Model\User;
 use Model\View;
 use Model\Question;
 
@@ -46,13 +47,37 @@ class Survey extends AbstractController
     }
 
     /**
+     * @todo Sanitize input
      * @return void
      */
     public function actionCreate(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'
+            && isset($_POST['status'])
+            && \array_key_exists($status = (int)$_POST['status'], Question::STATUSES)
+            && !empty($text = $_POST['text'])
+        ) {
+            $user = User::findOneByColumn('email', 'asd@mail.ru'); // $_SESSION['user']
 
-            // TODO: Save data + redirect to /survey/all
+            $question = new Question();
+            $question->user_id = $user->id;
+            $question->status = $status;
+            $question->text = $text;
+            $question->insert();
+
+            if (isset($_POST['answer'])) {
+                foreach ($_POST['answer'] as $value) {
+                    if (!empty($text = $value['text']) && !empty($votesNumber = $value['votes_number'])) {
+                        $answer = new Answer();
+                        $answer->question_id = $question->id;
+                        $answer->text = $text;
+                        $answer->votes_number = $votesNumber;
+                        $answer->insert();
+                    }
+                }
+            }
+
+            $this->redirect('/survey/all');
         } else {
             $view = new View();
             $view->title = 'Create survey';
@@ -61,14 +86,45 @@ class Survey extends AbstractController
     }
 
     /**
+     * @todo Sanitize input
      * @param mixed $id
      * @return void
      */
     public function actionUpdate($id): void
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'
+            && isset($_POST['status'])
+            && \array_key_exists($status = (int)$_POST['status'], Question::STATUSES)
+            && !empty($text = $_POST['text'])
+        ) {
+            $user = User::findOneByColumn('email', 'asd@mail.ru'); // $_SESSION['user']
 
-            // TODO: Load data + replace data + redirect to /survey/all
+            $question = Question::findOneById($id);
+            if (!$question) {
+                throw new Exception(\sprintf('Survey with ID "%d" cannot be updated.', $id));
+            }
+            $question->id = $id;
+            $question->user_id = $user->id;
+            $question->status = $status;
+            $question->text = $text;
+            $question->update();
+
+            if (isset($_POST['answer'])) {
+                foreach ($_POST['answer'] as $value) {
+                    if (!empty($text = $value['text']) && !empty($votesNumber = $value['votes_number'])) {
+                        $answer = new Answer();
+                        if (!empty($id = $value['id'])) {
+                            $answer->id = $id;
+                        }
+                        $answer->question_id = $question->id;
+                        $answer->text = $text;
+                        $answer->votes_number = $votesNumber;
+                        $answer->save();
+                    }
+                }
+            }
+
+            $this->redirect('/survey/all');
         } else {
             $question = Question::findOneById($id);
             if (!$question) {

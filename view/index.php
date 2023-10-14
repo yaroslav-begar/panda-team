@@ -2,7 +2,8 @@
 
 <div class="container">
     <h3>Welcome to our survey service!</h3>
-    <?php if (isset($_SESSION['user'])): ?>
+<!--    --><?php //if (isset($_SESSION['user'])): ?>
+    <?php if (true): ?>
         <h3>Proceed to the cabinet</h3>
         <div>
             <div>

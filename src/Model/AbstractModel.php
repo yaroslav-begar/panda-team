@@ -152,7 +152,39 @@ class AbstractModel
 			VALUES (' . \implode(', ', \array_keys($data)) . ')';
         $db = new Database();
         $db->execute($sql, $data);
+
         $this->id = $db->lastInsertId();
+    }
+
+    /**
+     * @return void
+     */
+    public function update(): void
+    {
+        $cols = [];
+        $data = [];
+        foreach ($this->data as $key => $value) {
+            $data[':' . $key] = $value;
+            if ($key == 'id') {
+                continue;
+            }
+            $cols[] = $key . '=:' . $key;
+        }
+        $sql = 'UPDATE ' . static::$table . ' SET ' . \implode(', ', $cols) . ' WHERE id=:id';
+        $db = new Database();
+        $db->execute($sql, $data);
+    }
+
+    /**
+     * @return void
+     */
+    public function save(): void
+    {
+        if (!isset($this->id)) {
+            $this->insert();
+        } else {
+            $this->update();
+        }
     }
 
     /**

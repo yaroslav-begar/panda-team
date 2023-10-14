@@ -1,23 +1,15 @@
 <?php /** @noinspection ALL */ ?>
 
 <div class="container">
-    <h3>Welcome to our survey service!</h3>
+    <div class="header">Welcome to our survey service!</div>
     <?php if (isset($_SESSION['user'])): ?>
-        <h3>Proceed to the cabinet</h3>
-        <div>
-            <div>
-                <a href="/survey/all"><button type="button">Cabinet</button></a>
-            </div>
-        </div>
+        <div class="sub-header">Proceed to the cabinet</div>
+        <a href="/survey/all" class="button">Cabinet</a>
     <?php else: ?>
-        <h3>Choose an action</h3>
+        <div class="sub-header">Choose an action</div>
         <div>
-            <div>
-                <a href="/user/login"><button type="button">Login</button></a>
-            </div>
-            <div>
-                <a href="/user/register"><button type="button">Register</button></a>
-            </div>
+            <a href="/user/login" class="button">Login</a>
+            <a href="/user/register" class="button register">Register</a>
         </div>
     <?php endif; ?>
 </div>

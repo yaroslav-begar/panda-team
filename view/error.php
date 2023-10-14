@@ -1,5 +1,10 @@
 <?php /** @noinspection ALL */ ?>
 
 <div class="container">
-    <p><?= 'An error has occurred: "' . $error . '". Please contact the administrator.' ?></p>
+    <div>
+        <span class="message"><?= 'An error has occurred: "' . $error . '".' ?>
+            <br/> Please contact the administrator
+        </span>
+    </div>
+    <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="button">Back</a>
 </div>

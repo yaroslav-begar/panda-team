@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?></title>
-    <link href="../assets/styles.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/styles.css">
 </head>
 <body>
     <div class="content">

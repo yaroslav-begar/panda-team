@@ -115,17 +115,20 @@ class Survey extends AbstractController
             $question->text = $text;
             $question->update();
 
+            // TODO: Substitution by deletion and insertion - use AJAX instead
+            $answers = Answer::findAllByColumn('question_id', $question->id);
+            foreach ($answers as $answer) {
+                $answer->delete();
+            }
+
             if (isset($_POST['answer'])) {
                 foreach ($_POST['answer'] as $value) {
                     if (!empty($text = $value['text']) && !empty($votesNumber = $value['votes_number'])) {
                         $answer = new Answer();
-                        if (!empty($id = $value['id'])) {
-                            $answer->id = $id;
-                        }
                         $answer->question_id = $question->id;
                         $answer->text = $text;
                         $answer->votes_number = $votesNumber;
-                        $answer->save();
+                        $answer->insert();
                     }
                 }
             }

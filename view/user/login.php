@@ -5,7 +5,7 @@
         <div class="header">Login</div>
         <div class="field-wrapper">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email" class="input"/>
+            <input type="email" name="email" id="email" class="input"/>
         </div>
         <div class="field-wrapper">
             <label for="password">Password</label>

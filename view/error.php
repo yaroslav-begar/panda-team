@@ -6,5 +6,7 @@
             <br/> Please contact the administrator
         </span>
     </div>
-    <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="button">Back</a>
+    <?php if (isset($_SERVER['HTTP_REFERER'])): ?>
+        <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="button">Back</a>
+    <?php endif; ?>
 </div>

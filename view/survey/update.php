@@ -58,7 +58,7 @@
         var elements = document.getElementsByClassName('answer-row');
         Array.from(elements).forEach(
             function(element, index, array) {
-                answerIds.push(element.className.split('-')[2]);
+                answerIds.push(element.className.split('-')[3]);
             }
         );
         if (answerIds.length > 0) {

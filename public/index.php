@@ -23,10 +23,17 @@ try {
     if (isset($parameter, $value)) {
         (new $className())->$methodName($value);
     } else {
-        (new $className())->$methodName();
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'
+            && !empty($_GET['email'])
+            && !empty($_GET['password'])
+        ) {
+            (new $className())->$methodName($_GET['email'], $_GET['password']);
+        } else {
+            (new $className())->$methodName();
+        }
     }
 } catch(\Exception $e) {
-    // TODO: Add human readable messages
+    // TODO: Add message processing
     $view = new View();
     $view->title = 'Error page';
     $view->error = $e->getMessage();

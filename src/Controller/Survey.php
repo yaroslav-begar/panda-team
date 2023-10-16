@@ -63,8 +63,10 @@ class Survey extends AbstractController
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
             && isset($_POST['status'])
             && \array_key_exists($status = (int)$_POST['status'], Question::STATUSES)
-            && !empty($text = $_POST['text'])
+            && !empty($_POST['text'])
         ) {
+            $text = $_POST['text'];
+
             $user = User::findOneByColumn('email', $_SESSION['user']);
 
             $question = new Question();
@@ -105,8 +107,10 @@ class Survey extends AbstractController
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
             && isset($_POST['status'])
             && \array_key_exists($status = (int)$_POST['status'], Question::STATUSES)
-            && !empty($text = $_POST['text'])
+            && !empty($_POST['text'])
         ) {
+            $text = $_POST['text'];
+
             $question = Question::findOneById($id);
             if (!$question) {
                 throw new Exception(\sprintf('Survey with ID "%d" cannot be updated.', $id));
